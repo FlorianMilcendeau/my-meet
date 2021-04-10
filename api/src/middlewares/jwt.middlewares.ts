@@ -1,25 +1,61 @@
+import { Response, Request, NextFunction } from 'express';
+import jwt, { VerifyErrors } from 'jsonwebtoken';
+
+import { IUserDecoded } from '../types/user.type';
+import JsonWebToken from '../utils/jwt';
+
 class JwtMiddleware {
-    private _key: string | undefined;
+    private _key: string;
 
     constructor() {
-        this._key = process.env.SECRET_KEY_JWT;
+        this._key = process.env.SECRET_KEY_JWT || '';
     }
 
-    public generateToken() {}
+    public verifyToken(req: Request, res: Response, next: NextFunction) {
+        // Get token.
+        const token =
+            req.headers.authorization &&
+            JsonWebToken.extract(req.headers.authorization);
 
-    public verifyToken() {}
+        // If the token does not exist.
+        if (!token) {
+            return res.status(401).json({
+                success: false,
+                message: 'Error. Need a token',
+            });
+        }
 
-    /** Extraction of the Json Web Token
-     *
-     * @param {string} token
-     * @returns {(false|string)} False if not a string, otherwise the token.
-     */
-    public extractToken(token: string) {
-        // extract the "Bearer" from token..
-        const matches: RegExpMatchArray | null = token.match(
-            /(Bearer)\s+(\S+)/i,
+        // Verify Json Web Token.
+        return jwt.verify(
+            token,
+            this._key,
+            {
+                clockTimestamp: Date.now(),
+                algorithms: ['HS256'],
+            },
+            (err: VerifyErrors | null, decoded: object | undefined) => {
+                if (err) {
+                    return res.status(401).json({
+                        success: false,
+                        message: err.message,
+                    });
+                }
+
+                if (decoded) {
+                    const {
+                        iat,
+                        exp,
+                        ...user
+                    }: IUserDecoded = decoded as IUserDecoded;
+
+                    // If the token is valid
+                    req.user = user;
+                }
+
+                return next();
+            },
         );
-
-        return matches && matches[2];
     }
 }
+
+export default new JwtMiddleware();

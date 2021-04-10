@@ -15,7 +15,7 @@ services:
         ports:
             - 27017:27017
 
-    api-ts-dev:
+    api:
         container_name: api-typescript-dev
         build:
             context: .

@@ -1,7 +1,7 @@
-import { body } from 'express-validator';
+import { body, ValidationChain } from 'express-validator';
 
 class AuthMiddleware {
-    validateBodyRequest() {
+    static validateBodyRequest(): Array<ValidationChain> {
         return [
             body('email').isEmail().withMessage('e-mail is wrong'),
             body('password')
@@ -13,4 +13,4 @@ class AuthMiddleware {
     }
 }
 
-export default new AuthMiddleware();
+export default AuthMiddleware;

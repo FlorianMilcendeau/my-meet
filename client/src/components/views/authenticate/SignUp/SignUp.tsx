@@ -96,7 +96,10 @@ const SignUp = ({ register }: PropsAuth): ReactElement => {
       <Button
         submit
         value="Register"
-        click={() => register(form)}
+        click={(e: Event) => {
+          e.preventDefault()
+          register(form)
+        }}
         isDisabled={isDisabled}
         style={stylesButton.ButtonPrimary}
       />

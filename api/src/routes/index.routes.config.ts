@@ -1,7 +1,8 @@
 import { Application } from 'express';
 
-export abstract class CommonRouteConfig {
+abstract class CommonRouteConfig {
     protected name: string;
+
     protected app: Application;
 
     constructor(app: Application, name: string) {
@@ -11,9 +12,11 @@ export abstract class CommonRouteConfig {
         this.configureRoute();
     }
 
-    get getName() {
+    get getName(): string {
         return this.name;
     }
 
     protected abstract configureRoute(): Application;
 }
+
+export default CommonRouteConfig;

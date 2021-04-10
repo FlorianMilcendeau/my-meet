@@ -4,7 +4,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import debug, { IDebugger } from 'debug';
 
-import { CommonRouteConfig } from './routes/index.routes.config';
+import CommonRouteConfig from './routes/index.routes.config';
 import router from './routes/index.routes';
 
 const app = express();

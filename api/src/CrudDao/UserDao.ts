@@ -1,7 +1,7 @@
 import { Model } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 
-import { User } from '../models/index.model';
+import { User as UserModel } from '../models/index.model';
 import { IUser, IUserCreate } from '../types/user.type';
 import { ICrudDao } from './CrudDao';
 
@@ -12,18 +12,26 @@ class UserDao implements ICrudDao {
         this.User = User;
     }
 
-    public async create(userFields: IUserCreate) {
+    /**
+     * Create a new user
+     *
+     * @param {IUserCreate} userFields
+     * @returns {IUser | null | undefined} - Returns false if a user already exists otherwise the user's info.
+     */
+    public async create(
+        userFields: IUserCreate,
+    ): Promise<IUser | null | undefined> {
         const { email } = userFields;
         try {
             const userId = uuidv4();
 
-            const user = this.User.findOne({ email }).exec();
+            const user = await this.User.findOne({ email }).exec();
 
             if (user) {
-                return false;
+                return null;
             }
 
-            const newUser = this.User.create({
+            const newUser = await this.User.create({
                 _id: userId,
                 ...userFields,
             });
@@ -31,12 +39,15 @@ class UserDao implements ICrudDao {
             return newUser;
         } catch (error) {
             console.error(error);
+            return null;
         }
     }
 
-    async getByEmail(email: string) {
-        return this.User.findOne({ email }).exec();
+    async getByEmail(email: string): Promise<IUser | null> {
+        const user = await this.User.findOne({ email }).exec();
+
+        return user;
     }
 }
 
-export default new UserDao(User);
+export default new UserDao(UserModel);

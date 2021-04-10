@@ -20,7 +20,26 @@ jobs:
       run: docker-compose -f client/docker-compose.dev.yml up -d
     
     - name: Run project's linter
-      run: docker-compose -f  client/docker-compose.dev.yml exec -T app-dev npm run lint
+      run: docker-compose -f  client/docker-compose.dev.yml exec -T client-dev npm run lint
+  
+  api:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build the Docker-compose-dev image
+      run: |
+        touch ./api/.env
+        echo PORT=${{ secrets.PORT }} >> ./api/.env
+        echo DB_NAME=${{ secrets.DB_NAME }} >> ./api/.env
+        echo DB_USER=${{ secrets.DB_USER }} >> ./api/.env
+        echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> ./api/.env
+        echo DB_HOST=${{ secrets.DB_HOST }} >> ./api/.env
+        docker-compose -f api/docker-compose.dev.yml up -d
     
+    - name: Run project's linter
+      run: docker-compose -f  api/docker-compose.dev.yml exec -T api npm run lint
 
 
