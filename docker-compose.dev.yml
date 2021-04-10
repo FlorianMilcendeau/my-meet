@@ -1,0 +1,48 @@
+version: '3.7'
+
+services:
+    db-dev:
+        image: 'mongo'
+        container_name: 'db-dev'
+        restart: always
+        environment:
+            - MONGO_INITDB_DATABASE=${DB_NAME}
+            - MONGO_INITDB_ROOT_USERNAME=${DB_USER}
+            - MONGO_INITDB_ROOT_PASSWORD=${DB_PASSWORD}
+        volumes:
+            - ./database/init-mongo.ts:/docker-entrypoint-initdb.d/init-mongo.ts:ro
+            - ./database/mongo-volume:/data/db
+        ports:
+            - 27017:27017
+
+    api:
+        container_name: api-dev
+        build:
+            context: ./api/
+            dockerfile: Dockerfile.dev
+        volumes:
+            - './api:/usr/src/app'
+            - '/usr/src/app/node_modules'
+        command: npm run start:dev
+        depends_on:
+            - 'db-dev'
+        env_file:
+            - ./api/.env
+        ports:
+            - 8080:8080
+
+    client:
+        container_name: client-dev
+        build:
+            context: ./client
+            dockerfile: Dockerfile.dev
+        volumes:
+            - './client:/app'
+            - '/app/node_modules'
+        depends_on:
+            - 'api'
+        ports:
+            - 3000:3000
+        environment:
+            - CHOKIDAR_USEPOLLING=true
+        stdin_open: true

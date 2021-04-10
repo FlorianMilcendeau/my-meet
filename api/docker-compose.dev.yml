@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+    db-dev:
+        image: 'mongo'
+        container_name: 'mongo-container-dev'
+        restart: always
+        environment:
+            - MONGO_INITDB_DATABASE=${DB_NAME}
+            - MONGO_INITDB_ROOT_USERNAME=${DB_USER}
+            - MONGO_INITDB_ROOT_PASSWORD=${DB_PASSWORD}
+        volumes:
+            - ./database/init-mongo.ts:/docker-entrypoint-initdb.d/init-mongo.ts:ro
+            - ./database/mongo-volume:/data/db
+        ports:
+            - 27017:27017
+
+    api-ts-dev:
+        container_name: api-typescript-dev
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        volumes:
+            - '.:/usr/src/app'
+            - '/usr/src/app/node_modules'
+        command: npm run start:dev
+        depends_on:
+            - 'db-dev'
+        env_file:
+            - ./.env
+        ports:
+            - ${PORT}:8080

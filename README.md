@@ -1,0 +1,54 @@
+# My Meet
+
+## Getting started
+
+1. Clone the repos
+
+```
+git clone https://github.com/FlorianMilcendeau/MyMeet.git
+```
+
+2. Run docker
+
+```
+docker-compose -f docker-compose.dev.yml up -d
+```
+
+## Env Sample
+
+1. Env root folder
+
+```
+# Database
+DB_NAME=<YOUR_DB_NAME>
+DB_USER=<YOUR_USERNAME>
+DB_PASSWORD=<YOUR_PASSWORDS>
+DB_HOST=<YOUR_HOSTNAME>
+```
+
+2. Env client
+
+```
+REACT_APP_SERVER_URL=<Your server url>
+```
+
+3. Env api
+
+```
+PORT=<YOUR_PORT>
+
+NODE_ENV=<ENVIRONNEMENT_TYPE>
+
+# debug logger
+DEBUG=api*
+
+# Database
+DB_NAME=<YOUR_DB_NAME>
+DB_USER=<YOUR_USERNAME>
+DB_PASSWORD=<YOUR_PASSWORDS>
+DB_HOST=<YOUR_HOSTNAME>
+
+
+# Secret key
+SECRET_KEY_JWT=<SECRET_KEY>
+```
