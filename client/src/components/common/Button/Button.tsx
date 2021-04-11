@@ -4,7 +4,7 @@ import styles from './Button.module.css';
 interface IProps {
     submit?: boolean;
     value: string;
-    click: (e: unknown) => void;
+    click: (e: any) => void;
     isDisabled: boolean;
     style: string;
 }

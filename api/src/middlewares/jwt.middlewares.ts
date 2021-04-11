@@ -33,6 +33,7 @@ class JwtMiddleware {
                 clockTimestamp: Date.now(),
                 algorithms: ['HS256'],
             },
+            // eslint-disable-next-line @typescript-eslint/ban-types
             (err: VerifyErrors | null, decoded: object | undefined) => {
                 if (err) {
                     return res.status(401).json({

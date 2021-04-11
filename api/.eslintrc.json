@@ -26,12 +26,16 @@
               "ts": "never"
             }
           ],
-          "no-underscore-dangle": "off"
+          "@typescript-eslint/no-unused-vars":"off",
+          "no-underscore-dangle": "off",
+          "class-methods-use-this": "off"
     },
     "settings": {
         "import/resolver": {
+          "typescript": {},
           "node": {
             "extensions": [
+              "js",
               ".ts",
               ".d.ts"
             ]

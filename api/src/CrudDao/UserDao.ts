@@ -1,7 +1,7 @@
 import { Model } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 
-import { User as UserModel } from '../models/index.model';
+import UserModel from '../models/index.model';
 import { IUser, IUserCreate } from '../types/user.type';
 import { ICrudDao } from './CrudDao';
 
