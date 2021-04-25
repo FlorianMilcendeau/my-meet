@@ -1,6 +1,6 @@
 FROM node:14
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 ENV PATH /app/node_modules/.bin:$PATH
 
