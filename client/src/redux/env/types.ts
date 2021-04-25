@@ -5,7 +5,7 @@ export type Env = {
 };
 
 export type Token = {
-  jwt: string;
+  token: string;
   expiresIn: number | string;
 };
 
