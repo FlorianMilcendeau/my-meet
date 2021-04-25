@@ -38,7 +38,6 @@ class UserDao implements ICrudDao {
 
             return newUser;
         } catch (error) {
-            console.error(error);
             return null;
         }
     }
