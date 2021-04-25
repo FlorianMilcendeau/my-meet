@@ -8,7 +8,13 @@
 git clone https://github.com/FlorianMilcendeau/MyMeet.git
 ```
 
-2. Run docker
+2. Run script to init environment variables
+
+```
+./init_env_dev.sh
+```
+
+3. Run docker (Only if the script **init_env_dev.sh** has already been executed.)
 
 ```
 docker-compose -f docker-compose.dev.yml up -d
@@ -47,8 +53,4 @@ DB_NAME=<YOUR_DB_NAME>
 DB_USER=<YOUR_USERNAME>
 DB_PASSWORD=<YOUR_PASSWORDS>
 DB_HOST=<YOUR_HOSTNAME>
-
-
-# Secret key
-SECRET_KEY_JWT=<SECRET_KEY>
 ```
