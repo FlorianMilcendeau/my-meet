@@ -22,7 +22,7 @@ export const userLogin = (
   dispatch: Dispatch,
 ) => {
   const response: AxiosResponse<ResponseAuth> = await api.post<ResponseAuth>(
-    'api/authenticate/sign-in',
+    '/authenticate/sign-in',
     user,
   );
 
@@ -49,7 +49,7 @@ export const userRegister = (
   dispatch: Dispatch,
 ) => {
   const response: AxiosResponse<ResponseAuth> = await api.post<ResponseAuth>(
-    'api/authenticate/sign-up',
+    '/authenticate/sign-up',
     user,
   );
 

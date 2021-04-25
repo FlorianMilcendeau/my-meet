@@ -1,6 +1,19 @@
 version: '3.7'
 
 services:
+    server:
+        container_name: server-dev
+        build:
+            context: ./nginx/
+            dockerfile: Dockerfile
+        links:
+            - api
+            - client
+        ports:
+            - '80:80'
+        networks:
+            - sub-etha
+
     db-dev:
         image: 'mongo'
         container_name: 'db-dev'
@@ -12,6 +25,8 @@ services:
         volumes:
             - ./database/init-mongo.ts:/docker-entrypoint-initdb.d/init-mongo.ts:ro
             - ./database/mongo-volume:/data/db
+        networks:
+            - sub-etha
         ports:
             - 27017:27017
 
@@ -24,12 +39,12 @@ services:
             - './api:/usr/src/app'
             - '/usr/src/app/node_modules'
         command: npm run start:dev
-        depends_on:
+        links:
             - 'db-dev'
         env_file:
             - ./api/.env
-        ports:
-            - 8080:8080
+        networks:
+            - sub-etha
 
     client:
         container_name: client-dev
@@ -39,10 +54,13 @@ services:
         volumes:
             - './client:/app'
             - '/app/node_modules'
-        depends_on:
+        links:
             - 'api'
-        ports:
-            - 3000:3000
         environment:
             - CHOKIDAR_USEPOLLING=true
         stdin_open: true
+        networks:
+            - sub-etha
+
+networks:
+    sub-etha:
