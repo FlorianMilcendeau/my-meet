@@ -1,14 +1,20 @@
 import { Response, Request, NextFunction } from 'express';
 import jwt, { VerifyErrors } from 'jsonwebtoken';
+import fs from 'fs'
+import path from 'path'
 
 import { IUserDecoded } from '../types/user.type';
 import JsonWebToken from '../utils/jwt';
+
+/** Read private key */
+const pathToPubKey = path.join(__dirname, '../../', 'id_rsa_pub.pem');
+const PUB_KEY = fs.readFileSync(pathToPubKey, 'utf-8');
 
 class JwtMiddleware {
     private _key: string;
 
     constructor() {
-        this._key = process.env.SECRET_KEY_JWT || '';
+        this._key = PUB_KEY;
     }
 
     public verifyToken(req: Request, res: Response, next: NextFunction) {
@@ -31,7 +37,7 @@ class JwtMiddleware {
             this._key,
             {
                 clockTimestamp: Date.now(),
-                algorithms: ['HS256'],
+                algorithms: ['RS256'],
             },
             // eslint-disable-next-line @typescript-eslint/ban-types
             (err: VerifyErrors | null, decoded: object | undefined) => {

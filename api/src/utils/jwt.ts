@@ -1,4 +1,6 @@
 import jwt from 'jsonwebtoken';
+import fs from 'fs'
+import path from 'path'
 
 interface IUser {
     _id: string;
@@ -6,11 +8,17 @@ interface IUser {
     email: string;
 }
 
+/** Read private key */
+const pathToPrivKey = path.join(__dirname, '../../', 'id_rsa_priv.pem');
+const PRIV_KEY = fs.readFileSync(pathToPrivKey, 'utf-8');
+
+
+
 class JsonWebToken {
     private _key: string;
 
     constructor() {
-        this._key = process.env.SECRET_KEY_JWT || '';
+        this._key = PRIV_KEY;
     }
 
     /**
@@ -36,7 +44,7 @@ class JsonWebToken {
         // token generated and singed.
         const signedToken = jwt.sign(payload, this._key, {
             expiresIn,
-            algorithm: 'HS256',
+            algorithm: 'RS256',
         });
 
         return {

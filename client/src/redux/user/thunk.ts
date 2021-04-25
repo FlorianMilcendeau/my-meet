@@ -28,9 +28,11 @@ export const userLogin = (
 
   const { user: userInfo, token } = response.data;
 
-  api.setToken = token.jwt;
+  api.setToken = token.token;
 
-  dispatch(setToken(token.jwt));
+  console.log(token.token);
+  
+  dispatch(setToken(token.token));
   dispatch(setUserSuccess(userInfo));
 };
 
@@ -55,8 +57,8 @@ export const userRegister = (
 
   const { user: userInfo, token } = response.data;
 
-  api.setToken = token.jwt;
+  api.setToken = token.token;
 
-  dispatch(setToken(token.jwt));
+  dispatch(setToken(token.token));
   dispatch(setUserSuccess(userInfo));
 };
