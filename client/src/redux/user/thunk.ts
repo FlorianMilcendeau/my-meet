@@ -29,8 +29,6 @@ export const userLogin = (
   const { user: userInfo, token } = response.data;
 
   api.setToken = token.token;
-
-  console.log(token.token);
   
   dispatch(setToken(token.token));
   dispatch(setUserSuccess(userInfo));
