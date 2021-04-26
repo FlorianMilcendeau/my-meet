@@ -36,10 +36,12 @@ class AuthController {
                 });
             }
 
-            const { password, ...userRest } = newUser;
-            const token = JsonWebToken.generate(userRest);
+            const { password, _id, name, email: mail } = newUser;
+            const token = JsonWebToken.generate({ _id, name, email: mail });
 
-            return res.status(201).json({ user: newUser, token });
+            return res
+                .status(201)
+                .json({ user: { _id, name, email: mail }, token });
         } catch (error) {
             return res.status(500).json(error);
         }

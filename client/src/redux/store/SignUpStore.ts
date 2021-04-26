@@ -12,14 +12,18 @@ import SignUp from '../../components/views/authenticate/SignUp/SignUp';
 /** Actions */
 import { userRegister } from '../user/thunk';
 
+const mapStateToProps = ({ user }: rootState) => ({
+    loadingUser: user.loading,
+});
+
 const mapDispatchToProps = (
-  dispatch: ThunkDispatch<rootState, void, Action>,
+    dispatch: ThunkDispatch<rootState, void, Action>,
 ) => ({
-  register: (user: UserRegister): void => dispatch(userRegister(user)),
+    register: (user: UserRegister): void => dispatch(userRegister(user)),
 });
 
 /** Connect props to component. */
-const connector = connect(null, mapDispatchToProps);
+const connector = connect(mapStateToProps, mapDispatchToProps);
 const SignUpStore = connector(SignUp);
 
 /** Take Props of component. */

@@ -12,14 +12,18 @@ import SignIn from '../../components/views/authenticate/signIn/SignIn';
 /** Actions */
 import { userLogin } from '../user/thunk';
 
+const mapStateToProps = ({ user }: rootState) => ({
+    loadingUser: user.loading,
+});
+
 const mapDispatchToProps = (
-  dispatch: ThunkDispatch<rootState, void, Action>,
+    dispatch: ThunkDispatch<rootState, void, Action>,
 ) => ({
-  login: (user: UserLogin): void => dispatch(userLogin(user)),
+    login: (user: UserLogin): void => dispatch(userLogin(user)),
 });
 
 /** Connect props to component. */
-const connector = connect(null, mapDispatchToProps);
+const connector = connect(mapStateToProps, mapDispatchToProps);
 const SignInStore = connector(SignIn);
 
 /** Take Props of component. */
