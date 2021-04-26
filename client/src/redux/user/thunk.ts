@@ -5,7 +5,7 @@ import { AxiosResponse } from 'axios';
 import { rootState } from '..';
 import api from '../../utils/http';
 import { setToken } from '../env/actions';
-import { setUserSuccess } from './action';
+import { setUserSuccess, startLoadingUser, stopLoadingUser } from './action';
 import { ResponseAuth, UserLogin, UserRegister } from './types';
 
 /**
@@ -17,21 +17,24 @@ import { ResponseAuth, UserLogin, UserRegister } from './types';
  * @param {string} user.password
  */
 export const userLogin = (
-  user: UserLogin,
+    user: UserLogin,
 ): ThunkAction<void, rootState, unknown, Action<string>> => async (
-  dispatch: Dispatch,
+    dispatch: Dispatch,
 ) => {
-  const response: AxiosResponse<ResponseAuth> = await api.post<ResponseAuth>(
-    '/authenticate/sign-in',
-    user,
-  );
+    dispatch(startLoadingUser());
+    const response: AxiosResponse<ResponseAuth> = await api.post<ResponseAuth>(
+        '/authenticate/sign-in',
+        user,
+    );
 
-  const { user: userInfo, token } = response.data;
+    const { user: userInfo, token } = response.data;
 
-  api.setToken = token.token;
-  
-  dispatch(setToken(token.token));
-  dispatch(setUserSuccess(userInfo));
+    api.setToken = token.token;
+
+    dispatch(setToken(token.token));
+    dispatch(setUserSuccess(userInfo));
+
+    dispatch(stopLoadingUser());
 };
 
 /**
@@ -44,19 +47,22 @@ export const userLogin = (
  * @param {string} user.password
  */
 export const userRegister = (
-  user: UserRegister,
+    user: UserRegister,
 ): ThunkAction<void, rootState, unknown, Action<string>> => async (
-  dispatch: Dispatch,
+    dispatch: Dispatch,
 ) => {
-  const response: AxiosResponse<ResponseAuth> = await api.post<ResponseAuth>(
-    '/authenticate/sign-up',
-    user,
-  );
+    dispatch(startLoadingUser());
+    const response: AxiosResponse<ResponseAuth> = await api.post<ResponseAuth>(
+        '/authenticate/sign-up',
+        user,
+    );
 
-  const { user: userInfo, token } = response.data;
+    const { user: userInfo, token } = response.data;
 
-  api.setToken = token.token;
+    api.setToken = token.token;
 
-  dispatch(setToken(token.token));
-  dispatch(setUserSuccess(userInfo));
+    dispatch(setToken(token.token));
+    dispatch(setUserSuccess(userInfo));
+
+    dispatch(stopLoadingUser());
 };

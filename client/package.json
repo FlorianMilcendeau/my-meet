@@ -12,6 +12,8 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-redux": "^7.1.16",
     "axios": "^0.21.1",
+    "connected-react-router": "^6.9.1",
+    "history": "^5.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-redux": "^7.2.2",
@@ -19,6 +21,7 @@
     "react-scripts": "3.4.4",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
+    "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
@@ -26,8 +29,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
-    "lint": "./node_modules/.bin/eslint --ext .ts,.tsx src/",
-    "prepare": "husky install"
+    "lint": "./node_modules/.bin/eslint --ext .ts,.tsx src/"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -55,15 +57,7 @@
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "husky": "^6.0.0",
-    "lint-staged": "^10.4.2",
     "prettier": "^2.1.2",
     "typescript": "^3.7.5"
-  },
-  "lint-staged": {
-    "src/**/*.ts*": [
-      "npm run lint",
-      "prettier --write"
-    ]
   }
 }

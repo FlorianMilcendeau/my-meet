@@ -1,4 +1,5 @@
 import React, { ReactElement } from 'react';
+import Loader from '../Loader/Loader';
 import styles from './Button.module.css';
 
 interface IProps {
@@ -7,10 +8,12 @@ interface IProps {
     click: (e: any) => void;
     isDisabled: boolean;
     style: string;
+    loading?: boolean;
 }
 
 const defaultProps = {
     submit: false,
+    loading: false,
 };
 
 const Button = ({
@@ -19,6 +22,7 @@ const Button = ({
     click,
     isDisabled = false,
     style = '',
+    loading,
 }: IProps & typeof defaultProps): ReactElement => (
     <button
         className={`${styles.Button} ${!isDisabled ? style : ''}`}
@@ -26,7 +30,7 @@ const Button = ({
         disabled={isDisabled}
         onClick={(e) => click(e)}
     >
-        {value}
+        {loading ? <Loader size="xs" color="white" /> : value}
     </button>
 );
 
