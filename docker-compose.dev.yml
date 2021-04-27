@@ -61,6 +61,19 @@ services:
         stdin_open: true
         networks:
             - sub-etha
+    cypress:
+        image: cypress
+        build: ./e2e
+        container_name: cypress
+        environment:
+            - CYPRESS_baseUrl=http://server
+        command: npx cypress run
+        volumes:
+            - ./e2e:/app
+        links:
+            - server
+        networks:
+            - sub-etha
 
 networks:
     sub-etha:
