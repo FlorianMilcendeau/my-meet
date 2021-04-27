@@ -67,7 +67,6 @@ services:
         container_name: cypress
         environment:
             - CYPRESS_baseUrl=http://server
-        command: npx cypress run
         volumes:
             - ./e2e:/app
         links:
