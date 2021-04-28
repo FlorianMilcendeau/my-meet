@@ -40,5 +40,5 @@ else
 
     docker-compose -f docker-compose.dev.yml up -d
 
-    docker-compose -f docker-compose.dev.yml exec api node ./generateKeyPair.js
+    docker-compose -f docker-compose.dev.yml exec -T api node ./generateKeyPair.js
 fi
