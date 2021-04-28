@@ -1,0 +1,23 @@
+name: Test
+
+on:
+  push: 
+    branches:
+      - "master"
+  pull_request:
+    branches: [master, develop]
+
+jobs:
+
+  Test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Initialize project's environment
+      run: ./init_env_dev.sh
+
+    - name: Run project's test
+      run: docker-compose -f docker-compose.dev.yml run -T cypress npx cypress run
