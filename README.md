@@ -8,7 +8,7 @@
 git clone https://github.com/FlorianMilcendeau/MyMeet.git
 ```
 
-2. Run script to init environment variables
+2. Run script to init environment variables (**run the script only once**)
 
 ```
 ./init_env_dev.sh
@@ -18,6 +18,12 @@ git clone https://github.com/FlorianMilcendeau/MyMeet.git
 
 ```
 docker-compose -f docker-compose.dev.yml up -d
+```
+
+4. If you want to run the tests
+
+```
+docker-compose -f docker-compose.dev.yml exec cypress npx cypress run
 ```
 
 ## Env Sample
