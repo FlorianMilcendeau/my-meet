@@ -47,6 +47,16 @@ class UserDao implements ICrudDao {
 
         return user;
     }
+
+    async findAll(): Promise<IUser[]> {
+        const user: IUser[] = await this.User.find({}).exec();
+
+        return user;
+    }
+
+    async deleteByid(id: string) {
+        await this.User.deleteOne({ _id: id });
+    }
 }
 
 export default new UserDao(UserModel);
