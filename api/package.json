@@ -7,13 +7,15 @@
     "build": "tsc --project ./",
     "start:dev": "nodemon -r dotenv/config src/index.ts",
     "lint": "./node_modules/.bin/eslint --ext .ts src/",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:user": "node -r ts-node/register ./cli/user.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "commander": "^7.2.0",
     "cors": "^2.8.5",
     "debug": "^3.2.7",
     "dotenv": "^8.2.0",
@@ -21,6 +23,7 @@
     "express": "^4.17.1",
     "express-validator": "^6.10.0",
     "helmet": "^4.4.1",
+    "inquirer": "^8.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.1",
     "morgan": "^1.10.0",
