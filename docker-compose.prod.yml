@@ -1,79 +1,73 @@
 version: '3.7'
 
 services:
-    server:
-        container_name: server-dev
+    server-prod:
+        container_name: server-prod
+        restart: always
         build:
-            context: ./nginx/dev
-            dockerfile: Dockerfile
+            context: ./nginx/prod
+            dockerfile: Dockerfile.prod
         links:
-            - api
-            - client
+            - api-prod
+            - client-prod
         ports:
             - '80:80'
         networks:
             - sub-etha
 
-    db-dev:
+    db-prod:
         image: 'mongo'
-        container_name: 'db-dev'
+        container_name: 'db-prod'
         restart: always
         environment:
             - MONGO_INITDB_DATABASE=${DB_NAME}
             - MONGO_INITDB_ROOT_USERNAME=${DB_USER}
             - MONGO_INITDB_ROOT_PASSWORD=${DB_PASSWORD}
         volumes:
-            - ./database/init-mongo/:/docker-entrypoint-initdb.d/init-mongo/:ro
+            - ./database/init-mongo.ts:/docker-entrypoint-initdb.d/init-mongo.ts:ro
             - ./database/mongo-volume:/data/db
         networks:
             - sub-etha
         ports:
             - 27017:27017
 
-    api:
-        container_name: api-dev
+    api-prod:
+        container_name: api-prod
+        restart: always
         build:
             context: ./api/
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile.prod
         volumes:
             - './api:/app'
             - '/app/node_modules'
-        command: npm run start:dev
+        command: npm start
         links:
-            - 'db-dev'
+            - 'db-prod'
         environment:
-            - DB_HOST=db-dev
+            - DB_NAME=${DB_NAME}
+            - DB_USER=${DB_USER}
+            - DB_PASSWORD=${DB_PASSWORD}
+            - DB_HOST=db-prod
+            - NODE_ENV=production
         env_file:
             - ./api/.env
         networks:
             - sub-etha
 
-    client:
-        container_name: client-dev
+    client-prod:
+        container_name: client-prod
+        restart: always
         build:
             context: ./client
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile.prod
         volumes:
             - './client:/app'
             - '/app/node_modules'
-        links:
-            - 'api'
         environment:
-            - CHOKIDAR_USEPOLLING=true
-            - REACT_APP_SERVER_URL=http://localhost/api
-        stdin_open: true
-        networks:
-            - sub-etha
-    cypress:
-        image: cypress
-        build: ./e2e
-        container_name: cypress
-        environment:
-            - CYPRESS_baseUrl=http://server
-        volumes:
-            - ./e2e:/app
+            - REACT_APP_SERVER_URL=${URL_SERVER}
+            - NODE_ENV=production
         links:
-            - server
+            - 'api-prod'
         networks:
             - sub-etha
 

@@ -14,9 +14,12 @@ class Mongoose {
 
     private dbPassword: string = process.env.DB_PASSWORD || '';
 
+    private dbHost: string = process.env.DB_HOST || '';
+
     private mongooseOption = {
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        useCreateIndex: true,
         serverSelectionTimeoutMS: 5000,
         useFindAndModify: false,
         user: this.dbUser,
@@ -37,7 +40,7 @@ class Mongoose {
 
         mongoose
             .connect(
-                `mongodb://db-dev:27017/${this.dbName}?authSource=admin`,
+                `mongodb://${this.dbHost}:27017/${this.dbName}?authSource=admin`,
                 this.mongooseOption,
             )
             .then(() => {
