@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Switch } from 'react-router-dom';
 
 import AuthenticateRoutes from './AuthenticateRoutes';
 
@@ -8,6 +8,7 @@ const Root = (): ReactElement => {
         <Router>
             <Switch>
                 <AuthenticateRoutes path="/authenticate" />
+                <Redirect to="/authenticate/sign-in" />
             </Switch>
         </Router>
     );

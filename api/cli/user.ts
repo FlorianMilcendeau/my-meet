@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import program from 'commander';
 import User from '../src/CrudDao/UserDao';
 import { IUser } from '../src/types/user.type';
@@ -28,6 +29,20 @@ program
 
             console.info(users);
             console.info(`${users.length} users`);
+        } catch (error) {
+            console.error(error);
+        }
+    });
+
+program
+    .command('create <name> <email> <password>')
+    .alias('c')
+    .description('Create a user')
+    .action(async (name: string, email: string, password: string) => {
+        try {
+            const user = await User.create({ name, email, password });
+
+            console.info('success !!', user);
         } catch (error) {
             console.error(error);
         }

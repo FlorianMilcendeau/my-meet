@@ -8,4 +8,4 @@ e2e/cypress/results
 .env.test
 .env*.local
 
-database/
+database/mongo-volume

@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "build": "tsc --project ./",
+    "build:ts": "rm -rf build && tsc --project .",
+    "build:js": "rm -rf dist && parcel build ./build/src/index.js --target node",
     "start:dev": "nodemon -r dotenv/config src/index.ts",
+    "start": "node -r dotenv/config dist/index.js",
     "lint": "./node_modules/.bin/eslint --ext .ts src/",
     "test": "echo \"Error: no test specified\" && exit 1",
     "db:user": "node -r ts-node/register ./cli/user.ts"
@@ -46,6 +48,7 @@
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.22.1",
     "nodemon": "^2.0.7",
+    "parcel-bundler": "^1.12.5",
     "prettier": "^2.2.1",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.3"

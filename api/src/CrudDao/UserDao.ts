@@ -1,5 +1,4 @@
 import { Model } from 'mongoose';
-import { v4 as uuidv4 } from 'uuid';
 
 import UserModel from '../models/index.model';
 import { IUser, IUserCreate } from '../types/user.type';
@@ -23,8 +22,6 @@ class UserDao implements ICrudDao {
     ): Promise<IUser | null | undefined> {
         const { email } = userFields;
         try {
-            const userId = uuidv4();
-
             const user = await this.User.findOne({ email }).exec();
 
             if (user) {
@@ -32,7 +29,6 @@ class UserDao implements ICrudDao {
             }
 
             const newUser = await this.User.create({
-                _id: userId,
                 ...userFields,
             });
 

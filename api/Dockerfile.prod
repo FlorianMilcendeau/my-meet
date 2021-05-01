@@ -1,0 +1,19 @@
+FROM node:14
+
+WORKDIR /app
+
+ENV PATH /app/node_modules/.bin:$PATH
+
+COPY package*.json ./
+
+RUN npm ci 
+
+COPY . .
+
+RUN mv ./generateKeyPair.js ../ && node ../generateKeyPair.js
+
+RUN npm run build:ts && npm run build:js
+
+EXPOSE 8080
+
+CMD ["npm", "start"]
