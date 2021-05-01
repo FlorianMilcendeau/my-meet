@@ -1,9 +1,9 @@
 import { Response, Request, NextFunction } from 'express';
 import jwt, { VerifyErrors } from 'jsonwebtoken';
-import fs from 'fs'
-import path from 'path'
+import fs from 'fs';
+import path from 'path';
 
-import { IUserDecoded } from '../types/user.type';
+import { IUser, IUserDecoded } from '../types/user.type';
 import JsonWebToken from '../utils/jwt';
 
 /** Read private key */
@@ -56,7 +56,7 @@ class JwtMiddleware {
                     }: IUserDecoded = decoded as IUserDecoded;
 
                     // If the token is valid
-                    req.user = user;
+                    req.user = user as IUser;
                 }
 
                 return next();

@@ -7,6 +7,9 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+# Compile typescript
+build/
+
 # key pair
 id_rsa_pub.pem
 id_rsa_priv.pem
@@ -49,6 +52,7 @@ jspm_packages/
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 .parcel-cache
+dist/
 
 # Temporary folders
 tmp/

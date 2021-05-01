@@ -4,6 +4,6 @@ import UserModel from './user.model';
 
 const mongoose = Mongoose.getMongoose;
 
-const User = mongoose.model<IUser>('User', UserModel);
+const User = mongoose.model<IUser>('user', UserModel, 'user');
 
 export default User;

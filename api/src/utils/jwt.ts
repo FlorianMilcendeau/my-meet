@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
-import fs from 'fs'
-import path from 'path'
+import fs from 'fs';
+import path from 'path';
 
 interface IUser {
     _id: string;
@@ -11,8 +11,6 @@ interface IUser {
 /** Read private key */
 const pathToPrivKey = path.join(__dirname, '../../', 'id_rsa_priv.pem');
 const PRIV_KEY = fs.readFileSync(pathToPrivKey, 'utf-8');
-
-
 
 class JsonWebToken {
     private _key: string;

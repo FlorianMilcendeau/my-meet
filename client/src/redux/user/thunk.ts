@@ -21,20 +21,24 @@ export const userLogin = (
 ): ThunkAction<void, rootState, unknown, Action<string>> => async (
     dispatch: Dispatch,
 ) => {
-    dispatch(startLoadingUser());
-    const response: AxiosResponse<ResponseAuth> = await api.post<ResponseAuth>(
-        '/authenticate/sign-in',
-        user,
-    );
+    try {
+        dispatch(startLoadingUser());
+        const response: AxiosResponse<ResponseAuth> = await api.post<ResponseAuth>(
+            '/authenticate/sign-in',
+            user,
+        );
 
-    const { user: userInfo, token } = response.data;
+        const { user: userInfo, token } = response.data;
 
-    api.setToken = token.token;
+        api.setToken = token.token;
 
-    dispatch(setToken(token.token));
-    dispatch(setUserSuccess(userInfo));
+        dispatch(setToken(token.token));
+        dispatch(setUserSuccess(userInfo));
 
-    dispatch(stopLoadingUser());
+        dispatch(stopLoadingUser());
+    } catch (e) {
+        dispatch(stopLoadingUser());
+    }
 };
 
 /**
@@ -51,18 +55,22 @@ export const userRegister = (
 ): ThunkAction<void, rootState, unknown, Action<string>> => async (
     dispatch: Dispatch,
 ) => {
-    dispatch(startLoadingUser());
-    const response: AxiosResponse<ResponseAuth> = await api.post<ResponseAuth>(
-        '/authenticate/sign-up',
-        user,
-    );
+    try {
+        dispatch(startLoadingUser());
+        const response: AxiosResponse<ResponseAuth> = await api.post<ResponseAuth>(
+            '/authenticate/sign-up',
+            user,
+        );
 
-    const { user: userInfo, token } = response.data;
+        const { user: userInfo, token } = response.data;
 
-    api.setToken = token.token;
+        api.setToken = token.token;
 
-    dispatch(setToken(token.token));
-    dispatch(setUserSuccess(userInfo));
+        dispatch(setToken(token.token));
+        dispatch(setUserSuccess(userInfo));
 
-    dispatch(stopLoadingUser());
+        dispatch(stopLoadingUser());
+    } catch (e) {
+        dispatch(stopLoadingUser());
+    }
 };
