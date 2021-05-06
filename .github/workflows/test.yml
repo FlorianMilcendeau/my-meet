@@ -20,7 +20,7 @@ jobs:
       run: ./init_env_dev.sh
 
     - name: Import data
-      run: docker-compose -f docker-compose.dev.yml exec -T db-dev mongoimport --host db-dev --db ${{ secrets.DB_NAME }} --authenticationDatabase admin --username ${{ secrets.DB_USER }} --password ${{ secrets.DB_PASSWORD }} --collection user --drop --type json --file docker-entrypoint-initdb.d/init-mongo/user.json --jsonArray
+      run: docker-compose -f docker-compose.dev.yml exec -T db-dev mongoimport --host db-dev --db ${{ secrets.DB_NAME }} --authenticationDatabase admin --username ${{ secrets.DB_USER }} --password ${{ secrets.DB_PASSWORD }} --drop --collection user --type json --file docker-entrypoint-initdb.d/init-mongo/user.json --jsonArray
     
     - name: Check running containers
       run: docker ps -a

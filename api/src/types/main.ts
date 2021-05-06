@@ -5,3 +5,7 @@ declare module 'express-serve-static-core' {
         user: IUser;
     }
 }
+
+export interface IUserRequest extends Request {
+    user: IUser;
+}

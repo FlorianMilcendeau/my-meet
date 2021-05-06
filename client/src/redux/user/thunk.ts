@@ -7,6 +7,8 @@ import api from '../../utils/http';
 import { setToken } from '../env/actions';
 import { setUserSuccess, startLoadingUser, stopLoadingUser } from './action';
 import { ResponseAuth, UserLogin, UserRegister } from './types';
+import Auth from '../../Authentication/Authentication';
+import { push } from 'connected-react-router';
 
 /**
  *  Function asynchrone for login the user
@@ -27,13 +29,14 @@ export const userLogin = (
             '/authenticate/sign-in',
             user,
         );
-
+        false;
         const { user: userInfo, token } = response.data;
 
         api.setToken = token.token;
 
         dispatch(setToken(token.token));
         dispatch(setUserSuccess(userInfo));
+        dispatch(push('/room'));
 
         dispatch(stopLoadingUser());
     } catch (e) {
@@ -68,6 +71,7 @@ export const userRegister = (
 
         dispatch(setToken(token.token));
         dispatch(setUserSuccess(userInfo));
+        dispatch(push('/room'));
 
         dispatch(stopLoadingUser());
     } catch (e) {
