@@ -1,5 +1,5 @@
 class Authentication {
-    protected authenticate: boolean = false;
+    protected authenticate: boolean;
 
     constructor() {
         this.authenticate = false;
