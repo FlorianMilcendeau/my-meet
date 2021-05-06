@@ -25,7 +25,7 @@ class JsonWebToken {
      * @param {object} user
      * @returns {{token: string, expiresIn: number}} Json Web Token and his expiration.
      */
-    generate(user: IUser) {
+    public generate(user: IUser) {
         const { _id, name, email } = user;
 
         // Init payload
