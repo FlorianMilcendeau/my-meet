@@ -2,12 +2,12 @@
     {
         "name": "John",
         "email": "jdoe@gmail.com",
-        "password": "$cx4&4?eLXd@N%62"
+        "password": "$2b$15$AfIp.CI.FRSsaOxckK.66O9PiHvd6JUV0y2rOkJVShGVH4O6KTtva"
 
     }, 
     {
-        "name": "Florian",
-        "email": "fmilcendeau85@gmail.com",
-        "password": "zAk479wsF@2rTHt"
+        "name": "Sebastien",
+        "email": "sartus@gmail.com",
+        "password": "$2b$15$0sffjwkSBj93acVVgmApVOY4tknczJfAOwBLe522vWh4p/p5Azh1y"
     }
 ]

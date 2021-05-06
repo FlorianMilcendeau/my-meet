@@ -2,6 +2,7 @@ import { Action, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 
 import { AxiosResponse } from 'axios';
+import { push } from 'connected-react-router';
 import { rootState } from '..';
 import api from '../../utils/http';
 import { setToken } from '../env/actions';
@@ -34,6 +35,7 @@ export const userLogin = (
 
         dispatch(setToken(token.token));
         dispatch(setUserSuccess(userInfo));
+        dispatch(push('/room'));
 
         dispatch(stopLoadingUser());
     } catch (e) {
@@ -68,6 +70,7 @@ export const userRegister = (
 
         dispatch(setToken(token.token));
         dispatch(setUserSuccess(userInfo));
+        dispatch(push('/room'));
 
         dispatch(stopLoadingUser());
     } catch (e) {
