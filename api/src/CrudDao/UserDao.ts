@@ -28,7 +28,7 @@ class UserDao implements ICrudDao {
                 return null;
             }
 
-            const newUser = await this.User.create({
+            const newUser = this.User.create({
                 ...userFields,
             });
 
@@ -38,19 +38,39 @@ class UserDao implements ICrudDao {
         }
     }
 
-    async getByEmail(email: string): Promise<IUser | null> {
-        const user = await this.User.findOne({ email }).exec();
+    /**
+     *
+     * @param {string} id - User id
+     * @returns {IUser | null} - A promise to resolve that contains a user or null
+     */
+    public getById(id: string): Promise<IUser | null> {
+        const user = this.User.findById(id).exec();
 
         return user;
     }
 
-    async findAll(): Promise<IUser[]> {
-        const user: IUser[] = await this.User.find({}).exec();
+    /**
+     *
+     * @param {string} email - User email
+     * @returns {IUser | null} A promise to resolve that contains a user or null
+     */
+    public getByEmail(email: string): Promise<IUser | null> {
+        const user = this.User.findOne({ email }).exec();
 
         return user;
     }
 
-    async deleteByid(id: string) {
+    /**
+     *
+     * @returns A resolution promise that contains an array of user or null
+     */
+    public findAll(): Promise<IUser[]> {
+        const user: Promise<IUser[]> = this.User.find({}).exec();
+
+        return user;
+    }
+
+    async deleteByid(id: string): Promise<void> {
         await this.User.deleteOne({ _id: id });
     }
 }
