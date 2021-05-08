@@ -7,9 +7,8 @@ import { rootState } from '..';
 import api from '../../utils/http';
 import { setToken } from '../env/actions';
 import { setUserSuccess, startLoadingUser, stopLoadingUser } from './action';
-import { ResponseAuth, UserLogin, UserRegister } from './types';
-import Auth from '../../Authentication/Authentication';
-import { push } from 'connected-react-router';
+import { ResponseAuth, User, UserLogin, UserRegister } from './types';
+import Authentication from '../../Authentication/Authentication';
 
 /**
  *  Function asynchrone for login the user
@@ -37,7 +36,7 @@ export const userLogin = (
 
         dispatch(setToken(token.token));
         dispatch(setUserSuccess(userInfo));
-        dispatch(push('/room'));
+        Authentication.logIn(() => dispatch(push('/room')));
 
         dispatch(stopLoadingUser());
     } catch (e) {
@@ -72,10 +71,59 @@ export const userRegister = (
 
         dispatch(setToken(token.token));
         dispatch(setUserSuccess(userInfo));
-        dispatch(push('/room'));
+        Authentication.logIn(() => dispatch(push('/room')));
 
         dispatch(stopLoadingUser());
     } catch (e) {
+        dispatch(stopLoadingUser());
+    }
+};
+
+/**
+ *  Function asynchrone to verify the json web token.
+ *
+ */
+export const verifyToken = (): ThunkAction<
+    void,
+    rootState,
+    unknown,
+    Action<string>
+> => async (dispatch: Dispatch, getState) => {
+    try {
+        dispatch(startLoadingUser());
+
+        const {
+            env: { token },
+            user,
+            router: {
+                location: { pathname },
+            },
+        } = getState();
+
+        if (token) {
+            api.setToken = token as string;
+        }
+
+        const response: AxiosResponse<{ user: User }> = await api.post<{
+            user: User;
+        }>('/authenticate/verify', user);
+
+        const { user: userInfo } = response.data;
+
+        dispatch(setUserSuccess(userInfo));
+        Authentication.logIn(() =>
+            dispatch(
+                push(
+                    window.location.pathname !== pathname
+                        ? window.location.pathname
+                        : pathname,
+                ),
+            ),
+        );
+
+        dispatch(stopLoadingUser());
+    } catch (e) {
+        Authentication.logOut(() => dispatch(push('/authenticate/sign-in')));
         dispatch(stopLoadingUser());
     }
 };

@@ -2,7 +2,16 @@ class Authentication {
     protected authenticate: boolean;
 
     constructor() {
-        this.authenticate = false;
+        const data = localStorage.getItem('persist:root');
+
+        if (typeof data === 'string') {
+            const { env } = JSON.parse(data);
+
+            const { token } = JSON.parse(env);
+            this.authenticate = !!token;
+        } else {
+            this.authenticate = false;
+        }
     }
 
     public logIn(cb: () => void) {
