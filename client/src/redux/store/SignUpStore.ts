@@ -13,7 +13,7 @@ import SignUp from '../../components/views/authenticate/SignUp/SignUp';
 import { userRegister } from '../user/thunk';
 
 const mapStateToProps = ({ user }: rootState) => ({
-    loadingUser: user.loading,
+    loadingUser: user.loading as boolean,
 });
 
 const mapDispatchToProps = (

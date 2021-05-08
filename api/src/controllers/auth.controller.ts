@@ -2,12 +2,15 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
+import debug, { IDebugger } from 'debug';
 
 import { IUserRequest } from '../types/main';
 import UserDao from '../CrudDao/UserDao';
 import { IUser, IUserCreate } from '../types/user.type';
 import JsonWebToken from '../utils/jwt';
 import generatePassword from '../utils/password';
+
+const log: IDebugger = debug('api:controller');
 
 class AuthController {
     public static async signUp(req: Request, res: Response): Promise<unknown> {
@@ -37,14 +40,15 @@ class AuthController {
                 });
             }
 
-            const { _id, name, email: mail } = newUser;
+            const { _id, name, email: mail, createdAt } = newUser;
             const token = JsonWebToken.generate({ _id, name, email: mail });
 
             return res
                 .status(201)
-                .json({ user: { _id, name, email: mail }, token });
+                .json({ user: { _id, name, email: mail, createdAt }, token });
         } catch (error) {
-            return res.status(500).json(error);
+            log(error);
+            return res.status(500).json({ message: 'Error server' });
         }
     }
 
@@ -67,7 +71,13 @@ class AuthController {
                 });
             }
 
-            const { password: Hash, _id, name, email: mail } = userFind;
+            const {
+                password: Hash,
+                _id,
+                name,
+                email: mail,
+                createdAt,
+            } = userFind;
 
             const generatedToken = await bcrypt.compare(password, Hash);
 
@@ -75,7 +85,7 @@ class AuthController {
                 const token = JsonWebToken.generate(userFind);
 
                 return res.status(200).json({
-                    user: { _id, name, email: mail },
+                    user: { _id, name, email: mail, createdAt },
                     token,
                 });
             }
@@ -84,20 +94,24 @@ class AuthController {
                 .status(401)
                 .json({ success: false, message: 'Password is wrong' });
         } catch (error) {
-            return res.status(500).json(error);
+            log(error);
+            return res.status(500).json({ message: 'Error server' });
         }
     }
 
     public static async verifyAuth(req: Request, res: Response): Promise<void> {
         const request = <IUserRequest>(<unknown>req);
 
-        const { _id: id } = request.user;
+        const { _id: id }: IUser = request.user;
         try {
-            const { _id, name, email } = (await UserDao.getById(id)) as IUser;
+            const { _id, name, email, createdAt } = (await UserDao.getById(
+                id,
+            )) as IUser;
 
-            res.status(200).json({ user: { _id, name, email } });
+            res.status(200).json({ user: { _id, name, email, createdAt } });
         } catch (error) {
-            res.status(500).json(error);
+            log(error);
+            res.status(500).json({ message: 'Error server' });
         }
     }
 }

@@ -37,7 +37,7 @@
     },
     "ecmaVersion": 2018,
     "sourceType": "module",
-    "project": ["./tsconfig.json", "./client/tsconfig.json"]
+    "project": ["./tsconfig.json", "../client/tsconfig.json"]
   },
   "plugins": [
     "react",
@@ -67,6 +67,15 @@
         "jsx": "never",
         "ts": "never",
         "tsx": "never"
+      }
+    ],
+    "react/jsx-props-no-spreading": [
+      2,
+      {
+        "exceptions": [
+          "Route",
+          "Component"
+        ]
       }
     ]
   }

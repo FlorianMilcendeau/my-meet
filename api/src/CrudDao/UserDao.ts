@@ -30,6 +30,7 @@ class UserDao implements ICrudDao {
 
             const newUser = this.User.create({
                 ...userFields,
+                createdAt: new Date(),
             });
 
             return newUser;

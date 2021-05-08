@@ -1,16 +1,17 @@
 import React, { ReactElement } from 'react';
-import { BrowserRouter as Router, Redirect, Switch } from 'react-router-dom';
+import { Redirect, Switch } from 'react-router-dom';
 
+import { ProtectedRouteStore } from '../../redux/store/ProtectedRouteStore';
 import AuthenticateRoutes from './AuthenticateRoutes';
+import Room from '../views/meet/Room';
 
 const Root = (): ReactElement => {
     return (
-        <Router>
-            <Switch>
-                <AuthenticateRoutes path="/authenticate" />
-                <Redirect to="/authenticate/sign-in" />
-            </Switch>
-        </Router>
+        <Switch>
+            <AuthenticateRoutes path="/authenticate" />
+            <ProtectedRouteStore component={Room} path="/room" />
+            <Redirect to="/authenticate/sign-in" />
+        </Switch>
     );
 };
 
