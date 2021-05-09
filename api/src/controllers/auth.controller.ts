@@ -115,19 +115,6 @@ class AuthController {
             res.status(500).json({ message: 'Error server' });
         }
     }
-
-    public static async verifyAuth(req: Request, res: Response): Promise<void> {
-        const request = <IUserRequest>(<unknown>req);
-
-        const { _id: id } = request.user;
-        try {
-            const { _id, name, email } = (await UserDao.getById(id)) as IUser;
-
-            res.status(200).json({ user: { _id, name, email } });
-        } catch (error) {
-            res.status(500).json(error);
-        }
-    }
 }
 
 export default AuthController;

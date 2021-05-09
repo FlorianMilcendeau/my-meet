@@ -29,7 +29,7 @@ export const userLogin = (
             '/authenticate/sign-in',
             user,
         );
-        false;
+
         const { user: userInfo, token } = response.data;
 
         api.setToken = token.token;
@@ -75,6 +75,7 @@ export const userRegister = (
 
         dispatch(stopLoadingUser());
     } catch (e) {
+        Authentication.logOut(() => dispatch(push('/authenticate/sign-in')));
         dispatch(stopLoadingUser());
     }
 };
@@ -101,7 +102,7 @@ export const verifyToken = (): ThunkAction<
         } = getState();
 
         if (token) {
-            api.setToken = token as string;
+            api.setToken = token;
         }
 
         const response: AxiosResponse<{ user: User }> = await api.post<{
