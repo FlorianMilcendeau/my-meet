@@ -39,7 +39,10 @@ const SignIn = ({ login, loadingUser }: PropsAuth): ReactElement => {
     }, [email, password]);
 
     return (
-        <form className={styles.formAuth} onSubmit={(e) => handleSubmit(e)}>
+        <form
+            className={styles.formAuth}
+            onSubmit={(e: FormEvent<HTMLFormElement>) => handleSubmit(e)}
+        >
             <h2 className={styles.titleForm}>Sign-in</h2>
             <InputCustom
                 type="email"

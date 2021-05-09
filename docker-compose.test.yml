@@ -34,9 +34,10 @@ services:
         container_name: api-dev
         build:
             context: ./api/
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile.test
         volumes:
             - ./api:/app
+            - /app/node_modules
         command: npm run start:dev
         links:
             - 'db-dev'
@@ -51,9 +52,10 @@ services:
         container_name: client-dev
         build:
             context: ./client
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile.test
         volumes:
             - ./client:/app
+            - /app/node_modules
         links:
             - 'api'
         environment:

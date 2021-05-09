@@ -4,7 +4,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import Root from './components/routes/Root';
-import store, { history, persistor } from './redux/index';
+import { history, persistor, store } from './redux/index';
 import Loader from './components/common/Loader/Loader';
 
 function App(): ReactElement {

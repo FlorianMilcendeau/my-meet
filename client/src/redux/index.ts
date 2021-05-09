@@ -10,6 +10,8 @@ import { createBrowserHistory } from 'history';
 import userReducer from './user/reducer';
 import envReducer from './env/reducer';
 
+const NODE_ENV = process.env.NODE_ENV || 'development';
+
 export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
@@ -21,21 +23,21 @@ const rootReducer = combineReducers({
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['user', 'env'],
+    whitelist: ['user', 'env', 'router'],
 };
 
-export type rootState = ReturnType<typeof rootReducer>;
+const enhancer =
+    NODE_ENV === 'development'
+        ? composeWithDevTools(
+              applyMiddleware(thunk),
+              applyMiddleware(routerMiddleware(history)),
+          )
+        : applyMiddleware(thunk);
 
-const persistedReducer = persistReducer<rootState>(persistConfig, rootReducer);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-const store = createStore(
-    persistedReducer,
-    composeWithDevTools(
-        applyMiddleware(thunk),
-        applyMiddleware(routerMiddleware(history)),
-    ),
-);
+export const store = createStore(persistedReducer, enhancer);
 
 export const persistor = persistStore(store);
 
-export default store;
+export type rootState = ReturnType<typeof rootReducer>;
