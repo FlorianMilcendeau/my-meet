@@ -1,15 +1,11 @@
 import React, { ReactElement } from 'react';
 import { Provider } from 'react-redux';
-import { createBrowserHistory } from 'history';
 import { ConnectedRouter } from 'connected-react-router';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import Root from './components/routes/Root';
-import configureStore from './redux/index';
+import { history, persistor, store } from './redux/index';
 import Loader from './components/common/Loader/Loader';
-
-const history = createBrowserHistory();
-const { store, persistor } = configureStore(history);
 
 function App(): ReactElement {
     return (
