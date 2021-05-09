@@ -1,0 +1,82 @@
+version: '3.7'
+
+services:
+    server:
+        container_name: server-dev
+        build:
+            context: ./nginx/dev
+            dockerfile: Dockerfile
+        links:
+            - api
+            - client
+        ports:
+            - '80:80'
+        networks:
+            - sub-etha
+
+    db-dev:
+        image: 'mongo'
+        container_name: 'db-dev'
+        restart: always
+        environment:
+            - MONGO_INITDB_DATABASE=${DB_NAME}
+            - MONGO_INITDB_ROOT_USERNAME=${DB_USER}
+            - MONGO_INITDB_ROOT_PASSWORD=${DB_PASSWORD}
+        volumes:
+            - ./database/init-mongo/:/docker-entrypoint-initdb.d/init-mongo/:ro
+            - ./database/mongo-volume:/data/db
+        networks:
+            - sub-etha
+        ports:
+            - 27017:27017
+
+    api:
+        container_name: api-dev
+        build:
+            context: ./api/
+            dockerfile: Dockerfile.test
+        volumes:
+            - ./api:/app
+            - /app/node_modules
+        command: npm run start:dev
+        links:
+            - 'db-dev'
+        environment:
+            - DB_HOST=db-dev
+        env_file:
+            - ./api/.env
+        networks:
+            - sub-etha
+
+    client:
+        container_name: client-dev
+        build:
+            context: ./client
+            dockerfile: Dockerfile.test
+        volumes:
+            - ./client:/app
+            - /app/node_modules
+        links:
+            - 'api'
+        environment:
+            - CHOKIDAR_USEPOLLING=true
+            - REACT_APP_SERVER_URL=http://localhost/api
+            - NODE_ENV=development
+        stdin_open: true
+        networks:
+            - sub-etha
+    cypress:
+        image: cypress
+        build: ./e2e
+        container_name: cypress
+        environment:
+            - CYPRESS_baseUrl=http://server
+        volumes:
+            - ./e2e:/app
+        links:
+            - server
+        networks:
+            - sub-etha
+
+networks:
+    sub-etha:

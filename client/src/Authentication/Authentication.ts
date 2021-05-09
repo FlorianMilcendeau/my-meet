@@ -1,3 +1,6 @@
+import { rootState } from '../redux';
+import { Env } from '../redux/env/types';
+
 class Authentication {
     protected authenticate: boolean;
 
@@ -5,9 +8,9 @@ class Authentication {
         const data = localStorage.getItem('persist:root');
 
         if (typeof data === 'string') {
-            const { env } = JSON.parse(data);
+            const { env } = JSON.parse(data) as rootState;
 
-            const { token } = JSON.parse(env);
+            const { token } = JSON.parse((env as unknown) as string) as Env;
             this.authenticate = !!token;
         } else {
             this.authenticate = false;

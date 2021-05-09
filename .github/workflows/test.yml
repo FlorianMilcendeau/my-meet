@@ -17,13 +17,13 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Initialize project's environment
-      run: ./init_var_env_dev.sh
+      run: ./init_var_env_dev.sh test
 
     - name: Import data
-      run: docker-compose -f docker-compose.dev.yml exec -T db-dev mongoimport --host db-dev --db ${{ secrets.DB_NAME }} --authenticationDatabase admin --username ${{ secrets.DB_USER }} --password ${{ secrets.DB_PASSWORD }} --drop --collection user --type json --file docker-entrypoint-initdb.d/init-mongo/user.json --jsonArray
+      run: docker-compose -f docker-compose.test.yml exec -T db-dev mongoimport --host db-dev --db ${{ secrets.DB_NAME }} --authenticationDatabase admin --username ${{ secrets.DB_USER }} --password ${{ secrets.DB_PASSWORD }} --drop --collection user --type json --file docker-entrypoint-initdb.d/init-mongo/user.json --jsonArray
     
     - name: Check running containers
       run: docker ps -a
 
     - name: Run project's test
-      run: docker-compose -f docker-compose.dev.yml run -T cypress npx cypress run
+      run: docker-compose -f docker-compose.test.yml run -T cypress npx cypress run

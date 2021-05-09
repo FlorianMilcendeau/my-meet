@@ -41,6 +41,7 @@ class AuthController {
             }
 
             const { _id, name, email: mail, createdAt } = newUser;
+
             const token = JsonWebToken.generate({ _id, name, email: mail });
 
             return res

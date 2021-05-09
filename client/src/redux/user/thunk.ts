@@ -101,7 +101,7 @@ export const verifyToken = (): ThunkAction<
         } = getState();
 
         if (token) {
-            api.setToken = token as string;
+            api.setToken = token;
         }
 
         const response: AxiosResponse<{ user: User }> = await api.post<{
