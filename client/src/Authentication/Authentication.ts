@@ -2,7 +2,6 @@ class Authentication {
     protected authenticate: boolean;
 
     constructor() {
-<<<<<<< HEAD
         const data = localStorage.getItem('persist:root');
 
         if (typeof data === 'string') {
@@ -13,9 +12,6 @@ class Authentication {
         } else {
             this.authenticate = false;
         }
-=======
-        this.authenticate = false;
->>>>>>> Update: api
     }
 
     public logIn(cb: () => void) {
