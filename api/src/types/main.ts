@@ -9,3 +9,4 @@ declare module 'express-serve-static-core' {
 export interface IUserRequest extends Request {
     user: IUser;
 }
+

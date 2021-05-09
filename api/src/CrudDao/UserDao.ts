@@ -71,7 +71,17 @@ class UserDao implements ICrudDao {
         return user;
     }
 
+<<<<<<< HEAD
     async deleteByid(id: string): Promise<void> {
+=======
+    async findAll(): Promise<IUser[]> {
+        const user: IUser[] = await this.User.find({}).exec();
+
+        return user;
+    }
+
+    async deleteByid(id: string) {
+>>>>>>> 939ba8ac383c4c8ebd7c662e9b43b7a8faae1ac7
         await this.User.deleteOne({ _id: id });
     }
 }
