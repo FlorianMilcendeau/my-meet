@@ -6,7 +6,7 @@
   "scripts": {
     "build:ts": "rm -rf build && tsc --project .",
     "build:js": "rm -rf dist && parcel build ./build/src/index.js --target node",
-    "heroku-postbuild": "npm run build:ts && npm run build:js",
+    "heroku-postbuild": "npm run build:ts && npm run build:js && npm start",
     "start:dev": "nodemon -r dotenv/config src/index.ts",
     "start": "node -r dotenv/config dist/index.js",
     "lint": "./node_modules/.bin/eslint --ext .ts src/",
