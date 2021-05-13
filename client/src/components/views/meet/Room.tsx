@@ -1,6 +1,10 @@
-import React, { ReactElement } from 'react';
+/* eslint-disable jsx-a11y/media-has-caption */
+import React, { ReactElement, useState } from 'react';
 
 const Room = (): ReactElement => {
+    const [isMuted, setIsMuted] = useState<boolean>(true);
+    const [isShow, setIsShow] = useState<boolean>(true);
+
     const getConnectedDevices = async (type: string) => {
         const devices = await navigator.mediaDevices.enumerateDevices();
         return devices.filter((device) => device.kind === type);
@@ -16,15 +20,16 @@ const Room = (): ReactElement => {
             audio: { echoCancellation: true },
             video: {
                 deviceId: cameraId,
-                width: window.innerWidth,
-                height: window.innerHeight,
+                width: { min: width.min, max: width.max },
+                height: { min: height.min, max: height.max },
             },
         };
 
-        return await navigator.mediaDevices.getUserMedia(constraints);
+        return navigator.mediaDevices.getUserMedia(constraints);
     }
 
-    (async () => {
+    // eslint-disable-next-line no-void
+    void (async () => {
         const cameras = await getConnectedDevices('videoinput');
         if (cameras && cameras.length > 0) {
             const stream = await openCamera(
@@ -39,6 +44,10 @@ const Room = (): ReactElement => {
                 },
             );
 
+            const mediaStreamTrack: MediaStreamTrack[] = stream.getTracks();
+
+            mediaStreamTrack[0].enabled = isMuted;
+            mediaStreamTrack[1].enabled = isShow;
             const video = document.getElementById(
                 'localVideo',
             ) as HTMLVideoElement;
@@ -51,6 +60,12 @@ const Room = (): ReactElement => {
         <div>
             <h1>My meet</h1>
             <video id="localVideo" autoPlay playsInline />
+            <button type="button" onClick={() => setIsMuted(!isMuted)}>
+                mute
+            </button>
+            <button type="button" onClick={() => setIsShow(!isShow)}>
+                video
+            </button>
         </div>
     );
 };

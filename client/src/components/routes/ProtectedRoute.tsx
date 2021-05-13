@@ -5,7 +5,7 @@ import { ProtectedRouteProps } from '../../redux/store/ProtectedRouteStore';
 
 interface Props {
     component: ComponentType<RouteComponentProps<any>>;
-    path?: string | string[];
+    path: string | string[];
 }
 
 const ProtectedRoute = ({
