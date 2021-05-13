@@ -39,44 +39,46 @@ const SignIn = ({ login, loadingUser }: PropsAuth): ReactElement => {
     }, [email, password]);
 
     return (
-        <form
-            className={styles.formAuth}
-            onSubmit={(e: FormEvent<HTMLFormElement>) => handleSubmit(e)}
-        >
-            <h2 className={styles.titleForm}>Sign-in</h2>
-            <InputCustom
-                type="email"
-                name="email"
-                label="email"
-                value={email}
-                setValue={(value: string, name: string) =>
-                    setForm({ ...form, [name]: value })
-                }
-                pattern={formatEmail}
-                messageError="address e-mail incorrect."
-            />
-            <InputCustom
-                type="password"
-                name="password"
-                label="password"
-                value={password}
-                setValue={(value: string, name: string) =>
-                    setForm({ ...form, [name]: value })
-                }
-            />
-            <Button
-                submit
-                value="Login"
-                click={() => null}
-                isDisabled={isDisabled}
-                style={stylesButton.ButtonPrimary}
-                loading={loadingUser}
-            />
-            <p className={styles.switchForm}>
-                Don&apos;t have an account yet ?&ensp;
-                <Link to="/authenticate/sign-up">sign-up</Link>
-            </p>
-        </form>
+        <div>
+            <form
+                className={styles.formAuth}
+                onSubmit={(e: FormEvent<HTMLFormElement>) => handleSubmit(e)}
+            >
+                <h2 className={styles.titleForm}>Sign-in</h2>
+                <InputCustom
+                    type="email"
+                    name="email"
+                    label="email"
+                    value={email}
+                    setValue={(value: string, name: string) =>
+                        setForm({ ...form, [name]: value })
+                    }
+                    pattern={formatEmail}
+                    messageError="address e-mail incorrect."
+                />
+                <InputCustom
+                    type="password"
+                    name="password"
+                    label="password"
+                    value={password}
+                    setValue={(value: string, name: string) =>
+                        setForm({ ...form, [name]: value })
+                    }
+                />
+                <Button
+                    submit
+                    value="Login"
+                    click={() => null}
+                    isDisabled={isDisabled}
+                    style={stylesButton.ButtonPrimary}
+                    loading={loadingUser}
+                />
+                <p className={styles.switchForm}>
+                    Don&apos;t have an account yet ?&ensp;
+                    <Link to="/authenticate/sign-up">sign-up</Link>
+                </p>
+            </form>
+        </div>
     );
 };
 
