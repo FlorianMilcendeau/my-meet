@@ -40,7 +40,12 @@ program
     .description('Create a user')
     .action(async (name: string, email: string, password: string) => {
         try {
-            const user = await User.create({ name, email, password });
+            const user = await User.create({
+                name,
+                email,
+                password,
+                createdAt: new Date(),
+            });
 
             console.info('success !!', user);
         } catch (error) {

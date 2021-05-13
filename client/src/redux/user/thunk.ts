@@ -1,7 +1,7 @@
 import { Action, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 
-import { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { push } from 'connected-react-router';
 import { rootState } from '..';
 import api from '../../utils/http';
@@ -9,6 +9,8 @@ import { setToken } from '../env/actions';
 import { setUserSuccess, startLoadingUser, stopLoadingUser } from './action';
 import { ResponseAuth, User, UserLogin, UserRegister } from './types';
 import Authentication from '../../Authentication/Authentication';
+import { setNotify } from '../notification/actions';
+import { INotify } from '../notification/types';
 
 /**
  *  Function asynchrone for login the user
@@ -39,7 +41,12 @@ export const userLogin = (
         Authentication.logIn(() => dispatch(push('/room')));
 
         dispatch(stopLoadingUser());
-    } catch (e) {
+    } catch (error) {
+        Authentication.logOut(() => dispatch(push('/authenticate/sign-in')));
+        if (axios.isAxiosError(error)) {
+            const err = error as AxiosError<INotify>;
+            dispatch(setNotify(err.response?.data as INotify));
+        }
         dispatch(stopLoadingUser());
     }
 };
@@ -74,8 +81,12 @@ export const userRegister = (
         Authentication.logIn(() => dispatch(push('/room')));
 
         dispatch(stopLoadingUser());
-    } catch (e) {
+    } catch (error) {
         Authentication.logOut(() => dispatch(push('/authenticate/sign-in')));
+        if (axios.isAxiosError(error)) {
+            const err = error as AxiosError<INotify>;
+            dispatch(setNotify(err.response?.data as INotify));
+        }
         dispatch(stopLoadingUser());
     }
 };
@@ -123,8 +134,12 @@ export const verifyToken = (): ThunkAction<
         );
 
         dispatch(stopLoadingUser());
-    } catch (e) {
+    } catch (error) {
         Authentication.logOut(() => dispatch(push('/authenticate/sign-in')));
+        if (axios.isAxiosError(error)) {
+            const err = error as AxiosError<INotify>;
+            dispatch(setNotify(err.response?.data as INotify));
+        }
         dispatch(stopLoadingUser());
     }
 };

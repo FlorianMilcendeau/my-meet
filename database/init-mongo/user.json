@@ -2,12 +2,13 @@
     {
         "name": "John",
         "email": "jdoe@gmail.com",
-        "password": "$2b$15$AfIp.CI.FRSsaOxckK.66O9PiHvd6JUV0y2rOkJVShGVH4O6KTtva"
-
+        "password": "$2b$15$AfIp.CI.FRSsaOxckK.66O9PiHvd6JUV0y2rOkJVShGVH4O6KTtva",
+        "createdAt": "2021-05-12T21:04:14.259Z"
     }, 
     {
         "name": "Sebastien",
         "email": "sartus@gmail.com",
-        "password": "$2b$15$0sffjwkSBj93acVVgmApVOY4tknczJfAOwBLe522vWh4p/p5Azh1y"
+        "password": "$2b$15$0sffjwkSBj93acVVgmApVOY4tknczJfAOwBLe522vWh4p/p5Azh1y",
+        "createdAt": "2021-05-10T21:04:14.259Z"
     }
 ]

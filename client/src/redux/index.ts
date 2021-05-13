@@ -9,6 +9,7 @@ import { createBrowserHistory } from 'history';
 /** Reducers */
 import userReducer from './user/reducer';
 import envReducer from './env/reducer';
+import notifyReducer from './notification/reducer';
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -16,6 +17,7 @@ export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
     router: connectRouter(history),
+    notification: notifyReducer,
     env: envReducer,
     user: userReducer,
 });

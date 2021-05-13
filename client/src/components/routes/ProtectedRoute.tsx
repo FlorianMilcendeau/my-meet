@@ -1,10 +1,11 @@
-import React, { ReactElement, ReactNode, useEffect } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import React, { ReactElement, ComponentType, useEffect } from 'react';
+import { Route, Redirect, RouteComponentProps } from 'react-router-dom';
 import Auth from '../../Authentication/Authentication';
 import { ProtectedRouteProps } from '../../redux/store/ProtectedRouteStore';
 
 interface Props {
-    component: ReactNode;
+    component: ComponentType<RouteComponentProps<any>>;
+    path: string | string[];
 }
 
 const ProtectedRoute = ({
